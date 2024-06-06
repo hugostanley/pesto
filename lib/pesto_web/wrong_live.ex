@@ -2,10 +2,15 @@ defmodule PestoWeb.WrongLive do
   use PestoWeb, :live_view
 
   @impl true
-  def mount(_params, _session, socket) do
-    IO.inspect("HEY LOGGINGG")
-    {:ok, assign(socket, score: 0, message: "Make a guess", time: time(), num:
-      random_num())}
+  def mount(_params, session, socket) do
+    {:ok,
+     assign(socket,
+       score: 0,
+       message: "Make a guess",
+       time: time(),
+       num: random_num(),
+       session_id: session["live_socket_id"]
+     )}
   end
 
   @impl true
@@ -27,6 +32,11 @@ defmodule PestoWeb.WrongLive do
           <%= n %>
         </.link>
       <% end %>
+      <br />
+      <pre>
+        <%= @current_user.username || @current_user.email %>
+        <%= @session_id %>
+      </pre>
     </h2>
     """
   end
@@ -48,15 +58,15 @@ defmodule PestoWeb.WrongLive do
         message = "Your guess is right. Answer is #{socket.assigns.num}"
         score = socket.assigns.score + 1
 
-        {:noreply, assign(socket, score: score, message: message, time: time(),
-          num: random_num())}
+        {:noreply,
+         assign(socket, score: score, message: message, time: time(), num: random_num())}
 
       false ->
         message = "Your guess is wrong. Correct answer is #{socket.assigns.num}"
         score = socket.assigns.score - 1
 
-        {:noreply, assign(socket, score: score, message: message, time: time(),
-          num: random_num())}
+        {:noreply,
+         assign(socket, score: score, message: message, time: time(), num: random_num())}
     end
   end
 end
