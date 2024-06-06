@@ -153,7 +153,12 @@ defmodule PestoWeb.UserAuth do
     socket = mount_current_user(socket, session)
 
     if socket.assigns.current_user do
-      {:cont, socket}
+      {:cont,
+       socket
+       |> Phoenix.Component.assign_new(
+         :session_id,
+         fn -> session["live_socket_id"] end
+       )}
     else
       socket =
         socket

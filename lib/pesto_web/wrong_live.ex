@@ -2,14 +2,13 @@ defmodule PestoWeb.WrongLive do
   use PestoWeb, :live_view
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(_params, _session, socket) do
     {:ok,
      assign(socket,
        score: 0,
        message: "Make a guess",
        time: time(),
-       num: random_num(),
-       session_id: session["live_socket_id"]
+       num: random_num()
      )}
   end
 
