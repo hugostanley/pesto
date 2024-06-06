@@ -65,7 +65,9 @@ defmodule PestoWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     live_session :require_authenticated_user,
-      layout: {PestoWeb.Layouts, :test},
+      # uncomment when you want to use different layout for a speicifc route.
+      # note this breaks the test
+      # layout: {PestoWeb.Layouts, :test},
       on_mount: [{PestoWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
