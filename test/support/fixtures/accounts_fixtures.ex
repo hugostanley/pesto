@@ -6,10 +6,17 @@ defmodule Pesto.AccountsFixtures do
 
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
   def valid_user_password, do: "hello world!"
+  def parse_username(email) do
+    email
+    |> String.split("@")
+    |> Enum.at(0, "")
+  end
 
   def valid_user_attributes(attrs \\ %{}) do
+    email = unique_user_email()
     Enum.into(attrs, %{
-      email: unique_user_email(),
+      email: email,
+      username: parse_username(email),
       password: valid_user_password()
     })
   end
